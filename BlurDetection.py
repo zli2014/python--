@@ -198,14 +198,14 @@ class BlurDetection:
             print(str(imgList[i]) + " is " + str(score))
 
     def TestSMD2(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
 
         for i in range(len(imgList)):
             score = self._SMD2Detection(imgList[i])
             print(str(imgList[i]) + " is " + str(score))
         return
     def TestSMD(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
 
         for i in range(len(imgList)):
             score = self._SMDDetection(imgList[i])
@@ -213,7 +213,7 @@ class BlurDetection:
         return
 
     def TestBrener(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
 
         for i in range(len(imgList)):
             score = self._blurDetection(imgList[i])
@@ -286,4 +286,5 @@ class BlurDetection:
 
 if __name__ == "__main__":
     BlurDetection = BlurDetection(strDir="/Users/tangzhifeng/Code/image_QA/data")
-    BlurDetection.Test_Tenengrad () # TestSMD
+    # BlurDetection.Test_Tenengrad () # TestSMD
+    BlurDetection.TestSMD() 
