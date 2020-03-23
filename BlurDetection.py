@@ -13,7 +13,7 @@ class BlurDetection:
         print("图片检测对象已经创建...")
         self.strDir = strDir
 
-    def _getAllImg(self, strType='jpg'):
+    def _getAllImg(self, strType=['jpg','png','jpeg']):
         """
         根据目录读取所有的图片
         :param strType: 图片的类型
@@ -23,7 +23,9 @@ class BlurDetection:
         for root, dirs, files in os.walk(self.strDir):  # 此处有bug  如果调试的数据还放在这里，将会递归的遍历所有文件
             for file in files:
                 # if os.path.splitext(file)[1]=='jpg':
-                names.append(str(file))
+                _ = file.split('.')
+                if len(_) >= 2 and _[-1] in strType:  
+                    names.append(file)
         return names
 
     def _imageToMatrix(self, image):
@@ -177,20 +179,20 @@ class BlurDetection:
         return source
 
     def Test_Tenengrad(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
         for i in range(len(imgList)):
             score = self._Tenengrad(imgList[i])
             print(str(imgList[i]) + " is " + str(score))
 
     def Test_Vollath(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
         for i in range(len(imgList)):
             score = self._Variance(imgList[i])
             print(str(imgList[i]) + " is " + str(score))
 
 
     def TestVariance(self):
-        imgList = self._getAllImg(self.strDir)
+        imgList = self._getAllImg()
         for i in range(len(imgList)):
             score = self._Variance(imgList[i])
             print(str(imgList[i]) + " is " + str(score))
@@ -224,10 +226,10 @@ class BlurDetection:
         :param imgName: 图像的而明朝
         :return: 灰度化和resize之后的图片对象
         """
-        strPath = self.strDir + imgName
-
+        strPath = self.strDir+ '/' + imgName
+        print(strPath)
         img = cv2.imread(strPath)  # 读取图片
-        cv2.moveWindow("", 1000, 100)
+        # cv2.moveWindow("", 1000, 100)
         # cv2.imshow("原始图", img)
         # 预处理操作
         reImg = cv2.resize(img, (800, 900), interpolation=cv2.INTER_CUBIC)  #
@@ -283,5 +285,5 @@ class BlurDetection:
 
 
 if __name__ == "__main__":
-    BlurDetection = BlurDetection(strDir="D:/document/ZKBH/bug/face/")
+    BlurDetection = BlurDetection(strDir="/Users/tangzhifeng/Code/image_QA/data")
     BlurDetection.Test_Tenengrad () # TestSMD
